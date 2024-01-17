@@ -6,6 +6,8 @@ import backgroundImg from "../../assets/background.png";
 
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
+import { Realm, useApp, useUser } from "@realm/react";
+
 import { Button } from "../../components/Button";
 
 import { WEB_CLIENT_ID } from "@env";
@@ -18,6 +20,7 @@ GoogleSignin.configure({
 
 export const SignIn = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const app = useApp();
 
   async function handleGoogleSignIn() {
     try {
@@ -26,6 +29,9 @@ export const SignIn = () => {
       const { idToken } = await GoogleSignin.signIn();
 
       if (idToken) {
+        const credentials = Realm.Credentials.jwt(idToken);
+
+        await app.logIn(credentials);
       } else {
         Alert.alert(
           "Entrar",

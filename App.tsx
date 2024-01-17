@@ -1,4 +1,9 @@
 import { ThemeProvider } from "styled-components/native";
+
+import { AppProvider, UserProvider } from "@realm/react";
+
+import { REALM_APP_ID } from "@env";
+
 import {
   useFonts,
   Roboto_400Regular,
@@ -7,6 +12,7 @@ import {
 import Theme from "./src/theme";
 
 import { SignIn } from "./src/screens/SignIn";
+import { Home } from "./src/screens/Home";
 
 import { Loading } from "./src/components/Loading";
 import { StatusBar } from "react-native";
@@ -22,13 +28,17 @@ export default function App() {
   }
 
   return (
-    <ThemeProvider theme={Theme}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      <SignIn />
-    </ThemeProvider>
+    <AppProvider id={REALM_APP_ID}>
+      <ThemeProvider theme={Theme}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        <UserProvider fallback={SignIn}>
+          <Home />
+        </UserProvider>
+      </ThemeProvider>
+    </AppProvider>
   );
 }
