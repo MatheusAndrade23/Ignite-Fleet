@@ -1,6 +1,7 @@
 import { ThemeProvider } from "styled-components/native";
 
 import { AppProvider, UserProvider } from "@realm/react";
+import { RealmProvider } from "./src/libs/realm";
 
 import { REALM_APP_ID } from "@env";
 
@@ -41,7 +42,9 @@ export default function App() {
             translucent
           />
           <UserProvider fallback={SignIn}>
-            <Routes />
+            <RealmProvider>
+              <Routes />
+            </RealmProvider>
           </UserProvider>
         </SafeAreaProvider>
       </ThemeProvider>
